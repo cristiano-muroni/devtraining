@@ -14,7 +14,7 @@ export class CoursesController {
         return `Curso: ${id}`;
     }  
     @Post() 
-    create(@Body() body) {
+    create(@Body('name') body) {
         return body;
     }
 }

@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeORMConfig } from './config/typeorm.config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoursesModule } from './courses/courses.module';
-// npm i typeorm@0.2.45
+
+
 @Module({
   imports: [
     CoursesModule, 
-    TypeOrmModule.forRoot(),
+    TypeOrmModule.forRoot(typeORMConfig),
 ],
   controllers: [AppController],
   providers: [AppService],

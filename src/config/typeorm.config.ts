@@ -8,5 +8,6 @@ export const typeORMConfig : TypeOrmModuleOptions = {
   password: 'docker',
   database: 'postgres',
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  autoLoadEntities: true,
   synchronize: true,
 };

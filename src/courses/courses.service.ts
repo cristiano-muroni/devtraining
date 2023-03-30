@@ -31,20 +31,16 @@ export class CoursesService {
     }
 
     async create(createCourseDto: CreateCourseDto){
-        const tags = await Promise.all(
-            createCourseDto.tags.map(name => this.preloadTagByName(name))
-        );
+        const tags = await Promise.all( createCourseDto.tags.map(name => this.preloadTagByName(name)) );
         const course = await this.courseRepository.create({
             ... createCourseDto,
             tags,
-        });
+        });        
         return this.courseRepository.save(course);
     }
 
     async update(id: string, updateCourseDto: UpdateCourseDto){
-        const tags = updateCourseDto.tags && (
-            await Promise.all(updateCourseDto.tags.map( name => this.preloadTagByName(name)))
-        )
+        const tags = updateCourseDto.tags && ( await Promise.all(updateCourseDto.tags.map( name => this.preloadTagByName(name))) )
         const course = await this.courseRepository.preload({
             id: +id,
             ... updateCourseDto,
@@ -66,7 +62,10 @@ export class CoursesService {
     }
 
     private async preloadTagByName(name: string): Promise<Tag> {
-        const tag = await this.tagRepository.findOne({ name });
+        const tag = await this.tagRepository.findOne({
+            where: {name}
+        });        
+        console.log(this.tagRepository);
 
         if(tag) {
             return tag;

@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateCourseDto } from './dto/create-course.dto/create-course.dto';
-import { UpdateCourseDto } from './dto/create-course.dto/update-course.dto';
+import { CreateCourseDto, UpdateCourseDto } from './dto/create-course.dto';
 import { Course } from './entities/course.entity';
 import { Tag } from './entities/tag.entity';
+import { AllCourses } from './typeObjects';
 
 @Injectable()
 export class CoursesService {
@@ -16,16 +16,16 @@ export class CoursesService {
     private readonly tagRepository: Repository<Tag>,
   ) {}
 
-  async findAll() {
+  async findAll() : Promise<AllCourses> {
     return await this.courseRepository.find({
       relations: ['tags'],
-    });
+    }) ;
   }
 
-  async findOne(id) {
-    id = Number(id);
+  async findOne(strId: string) {
+    const id = Number(strId);
     const course = await this.courseRepository.findOne({
-      where: id,
+      where: {id},
       relations: ['tags']
     });
 
